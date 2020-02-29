@@ -1,6 +1,12 @@
 # Tableau
 
-**TODO: Add description**
+My goal here is to implement the Analytic Tableau method and the KE method. 
+Initially, only for classical logic.
+Later, maybe for some paraconsistent logics.
+
+Read more about the [Analytic Tableau method on Wikipedia](https://en.wikipedia.org/wiki/Method_of_analytic_tableaux).
+
+Read more about the KE method on [my Phd. Dissertation](https://www.teses.usp.br/teses/disponiveis/45/45134/tde-04052007-175943/pt-br.php).
 
 ## Installation
 
