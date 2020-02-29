@@ -16,10 +16,12 @@ defmodule TableauTest do
   end
 
   test "apply all linear rules recursively" do
-    linear_example_2 = [{:t, {:not, {:not, :a}}}, {:t, {:c, :and, {:d, :and, :g}}}]
+    linear_example_2 = [{:t, {:not, {:not, :a}}}, {:t, {:c, :and, {:d, :and, :g}}},
+    {:f, {:u, :and, :u}}]
     expected_result = [
       t: {:not, {:not, :a}},
       t: {:c, :and, {:d, :and, :g}},
+      f: {:u, :and, :u},
       f: {:not, :a},
       t: :c,
       t: {:d, :and, :g},

@@ -1,3 +1,10 @@
+#  Tasks
+
+- [X] Apply all linear
+- [X] Closed list of formulas
+- [] Closed branch
+- [X] Opposite formulas
+
 # Sets vs Lists
 
 In a set, the order doesn't matter.
