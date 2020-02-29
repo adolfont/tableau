@@ -43,9 +43,42 @@ defmodule Tableau do
   def apply_all_linear_once(formulas) do
     formulas |> Enum.map(&Tableau.apply_linear/1) |> List.flatten() |> Enum.dedup()
   end
+
+  def attempt_to_close(proof = %Proof{}) do
+    if Closing.is_closed?(proof.formulas) do
+      %{proof | status: :closed}
+    else
+      proof
+    end
+  end
+
+  def prove(formulas) do
+    prove_aux(%Proof{formulas: formulas})
+  end
+
+  def apply_linear_rules(proof = %Proof{}) do
+    %{proof | formulas: apply_all_linear_recursively(proof.formulas)}
+  end
+
+  def  branch_if_not_closed(proof = %Proof{status: :closed}) do
+    proof
+  end
+
+  def  branch_if_not_closed(proof) do
+    branching_formulas = get_branching_formulas(proof.formulas)
+    proof
+  end
+
+  def prove_aux(proof) do
+    proof
+    |> apply_linear_rules()
+    |> attempt_to_close()
+    |> branch_if_not_closed()
+  end
 end
 
-# example = [{:t, :a}, {:t, {:a, :implies, :b}}, {:f, :b}]
-# proof = %Proof{formulas: example}
+Tableau.prove([{:t, {:not, {:not, :a}}}, {:t, {:a, :implies, :b}}, {:f, :b}])
+|> IO.inspect()
 
-# IO.inspect(proof)
+Tableau.prove([{:t, {:not, {:not, :b}}}, {:t, {:a, :implies, :b}}, {:f, :b}])
+|> IO.inspect()

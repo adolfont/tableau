@@ -18,13 +18,3 @@ defmodule Closing do
       is_closed?(tail)
   end
 end
-
-# Closing.are_opposite?({:t, :a}, {:f, :a})
-# Closing.are_opposite?({:f, :a}, {:t, :a})
-# Closing.are_opposite?({:f, :a}, {:t, :b})
-# Closing.are_opposite?({:t, :a}, {:t, :b})
-# Closing.is_closed?([{:t, :a}, {:t, :b}])
-# Closing.is_closed?([{:t, :a}, {:t, :b}, {:f, :a}])
-# Closing.is_closed?([{:t, :a}, {:t, :b}, {:f, :c}])
-# Closing.is_closed?([{:t, :a}, {:t, :b}, {:f, :c}, {:f, :b}])
-
