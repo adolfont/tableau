@@ -6,7 +6,7 @@ Later, maybe for some paraconsistent logics.
 
 Read more about the [Analytic Tableau method on Wikipedia](https://en.wikipedia.org/wiki/Method_of_analytic_tableaux).
 
-Read more about the KE method on [my Phd. Dissertation](https://www.teses.usp.br/teses/disponiveis/45/45134/tde-04052007-175943/pt-br.php).
+Read more about the KE method on [The taming of the cut: Classical refutations with analytic cut, by Marcello D'Agostino and Marco Mondadori](https://www.researchgate.net/profile/Marcello_DAgostino/publication/31089377_The_Taming_of_the_Cut_Classical_Refutations_with_Analytic_Cut/links/004635276879db86c1000000/The-Taming-of-the-Cut-Classical-Refutations-with-Analytic-Cut.pdf) [my Phd. Dissertation](https://www.teses.usp.br/teses/disponiveis/45/45134/tde-04052007-175943/pt-br.php).
 
 ## Installation
 
