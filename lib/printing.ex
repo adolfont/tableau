@@ -13,14 +13,9 @@ defmodule Printing do
       show_proof(hd(proof.branches)),
       show_proof(hd(tl(proof.branches)))
     ]
-
-    # show_proof_branches(proof.branches)
   end
 
-  # defp show_proof_branches([]) do
-  # end
-
-  defp show_signed_formula({sign, formula}) do
+  def show_signed_formula({sign, formula}) do
     "#{sign_as_string(sign)} #{formula_as_string(formula)}"
   end
 

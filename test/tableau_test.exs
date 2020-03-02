@@ -40,7 +40,50 @@ defmodule TableauTest do
   end
 
   test "AAAA" do
-    assert Tableau.prove([{:t, {:not, {:not, :a}}}, {:t, {:a, :implies, :b}}, {:f, :b}]) == []
+    expected_result = %Proof{
+      branches: [
+        %Proof{
+          branches: [],
+          formulas: [
+            t: {:not, {:not, :a}},
+            t: {:a, :implies, :b},
+            f: :b,
+            f: {:not, :a},
+            t: :a,
+            f: :a
+          ],
+          status: :closed
+        },
+        %Proof{
+          branches: [],
+          formulas: [
+            t: {:not, {:not, :a}},
+            t: {:a, :implies, :b},
+            f: :b,
+            f: {:not, :a},
+            t: :a,
+            t: :b
+          ],
+          status: :closed
+        }
+      ],
+      formulas: [
+        t: {:not, {:not, :a}},
+        t: {:a, :implies, :b},
+        f: :b,
+        f: {:not, :a},
+        t: :a
+      ],
+      status: :open
+    }
+
+    # IO.inspect(Tableau.prove([{:t, {:not, {:not, :a}}}, {:t, {:a, :implies, :b}}, {:f, :b}]))
+    assert Tableau.prove([{:t, {:not, {:not, :a}}}, {:t, {:a, :implies, :b}}, {:f, :b}]) ==
+             expected_result
+
+    # assert Printing.show_proof(
+    #         Tableau.prove([{:t, {:not, {:not, :a}}}, {:f, :a}, {:t, {:a, :implies, :b}}, {:f, :b}])
+    #       ) == []
 
     # |> IO.inspect()
 

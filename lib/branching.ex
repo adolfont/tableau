@@ -1,6 +1,4 @@
 defmodule Branching do
-  import Printing
-
   defp branching_formula_filter({:t, {_, :or, _}}) do
     true
   end
@@ -48,9 +46,5 @@ defmodule Branching do
 
   defp expand_with_branching_rule(proof, [left, right], _) do
     Proof.add_branches(proof, left, right)
-  end
-
-  def prove_branches(proof = %Proof{}) do
-    show_proof(proof)
   end
 end

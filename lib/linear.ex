@@ -89,10 +89,10 @@ defmodule Linear do
   Returns a list containing the conclusions.
   """
   def apply_all_linear_once(formulas) do
-    formulas |> Enum.map(&apply_linear/1) |> List.flatten() |> Enum.dedup()
+    formulas |> Enum.map(&apply_linear/1) |> List.flatten() |> Enum.uniq()
   end
 
   def apply_linear_rules(proof = %Proof{}) do
-    %{proof | formulas: apply_all_linear_recursively(proof.formulas)}
+    %{proof | formulas: Enum.uniq(apply_all_linear_recursively(proof.formulas))}
   end
 end

@@ -37,7 +37,15 @@ defmodule Tableau do
     |> Linear.apply_linear_rules()
     |> attempt_to_close()
     |> branch_if_not_closed()
-    |> Branching.prove_branches()
+    |> prove_branches()
+  end
+
+  def prove_branches(proof = %Proof{branches: []}) do
+    proof
+  end
+
+  def prove_branches(proof = %Proof{branches: [left_branch, right_branch]}) do
+    %Proof{proof | branches: [prove_aux(left_branch), prove_aux(right_branch)]}
   end
 
   def prove(formulas) do
