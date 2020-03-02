@@ -1,9 +1,19 @@
 defmodule Printing do
+  def show_proof(proof = %Proof{branches: []}) do
+    ["FORMULAS: ", Enum.map(proof.formulas, &show_signed_formula(&1)), "STATUS: #{proof.status}"]
+    # show_proof_branches(proof.branches)
+  end
+
   def show_proof(proof = %Proof{}) do
-    IO.puts("FORMULAS: ")
-    Enum.map(proof.formulas, &show_signed_formula(&1))
-    IO.puts("STATUS: #{proof.status}")
-    IO.inspect(proof.branches)
+    [
+      :formulas,
+      Enum.map(proof.formulas, &show_signed_formula(&1)),
+      "STATUS: #{proof.status}",
+      :branches,
+      show_proof(hd(proof.branches)),
+      show_proof(hd(tl(proof.branches)))
+    ]
+
     # show_proof_branches(proof.branches)
   end
 
@@ -11,7 +21,7 @@ defmodule Printing do
   # end
 
   defp show_signed_formula({sign, formula}) do
-    IO.puts("#{sign_as_string(sign)} #{formula_as_string(formula)}")
+    "#{sign_as_string(sign)} #{formula_as_string(formula)}"
   end
 
   defp sign_as_string(sign) do

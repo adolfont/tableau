@@ -38,4 +38,13 @@ defmodule TableauTest do
 
     assert Linear.apply_all_linear_recursively(linear_example_2) == expected_result
   end
+
+  test "AAAA" do
+    assert Tableau.prove([{:t, {:not, {:not, :a}}}, {:t, {:a, :implies, :b}}, {:f, :b}]) == []
+
+    # |> IO.inspect()
+
+    # Tableau.prove([{:t, {:not, {:not, :b}}}, {:t, {:a, :implies, :b}}, {:f, :b}])
+    # |> IO.inspect()
+  end
 end

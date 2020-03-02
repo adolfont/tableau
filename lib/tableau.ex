@@ -1,8 +1,4 @@
 defmodule Tableau do
-  import Proof
-  import Printing
-  import Linear
-
   @moduledoc """
     Module that implements Analytic Tableaux.
 
@@ -28,85 +24,23 @@ defmodule Tableau do
     end
   end
 
-  defp branching_formula_filter({:t, {_, :or, _}}) do
-    true
-  end
-
-  defp branching_formula_filter({:f, {_, :and, _}}) do
-    true
-  end
-
-  defp branching_formula_filter({:t, {_, :implies, _}}) do
-    true
-  end
-
-  defp branching_formula_filter(_), do: false
-
-  def get_branching_formulas(formulas) do
-    Enum.filter(formulas, &branching_formula_filter/1)
-  end
-
-  def apply_branching_rule(proof, []) do
+  def branch_if_not_closed(proof = %Proof{status: :closed}) do
     proof
   end
 
-  def apply_branching_rule(proof, [
-        first_branching_formula
-        | remaining_branching_formulas
-      ]) do
-    apply_beta(first_branching_formula)
-
-    expand_with_branching_rule(
-      proof,
-      apply_beta(first_branching_formula),
-      remaining_branching_formulas
-    )
-  end
-
-  defp apply_beta({:t, {left, :or, right}}) do
-    [{:t, left}, {:t, right}]
-  end
-
-  defp apply_beta({:f, {left, :and, right}}) do
-    [{:f, left}, {:f, right}]
-  end
-
-  defp apply_beta({:t, {left, :implies, right}}) do
-    [{:f, left}, {:t, right}]
-  end
-
-  defp expand_with_branching_rule(proof, _, _) do
-    proof
-  end
-
-  defp prove_branches(proof = %Proof{}) do
-    show_proof(proof)
-  end
-
-  defp branch_if_not_closed(proof = %Proof{status: :closed}) do
-    proof
-  end
-
-  defp branch_if_not_closed(proof) do
-    apply_branching_rule(proof, get_branching_formulas(proof.formulas))
+  def branch_if_not_closed(proof) do
+    Branching.apply_branching_rule(proof, Branching.get_branching_formulas(proof.formulas))
   end
 
   defp prove_aux(proof) do
     proof
-    |> apply_linear_rules()
+    |> Linear.apply_linear_rules()
     |> attempt_to_close()
     |> branch_if_not_closed()
-    |> prove_branches()
+    |> Branching.prove_branches()
   end
 
   def prove(formulas) do
     prove_aux(%Proof{formulas: formulas})
   end
 end
-
-Tableau.prove([{:t, {:not, {:not, :a}}}, {:t, {:a, :implies, :b}}, {:f, :b}])
-
-# |> IO.inspect()
-
-Tableau.prove([{:t, {:not, {:not, :b}}}, {:t, {:a, :implies, :b}}, {:f, :b}])
-# |> IO.inspect()
