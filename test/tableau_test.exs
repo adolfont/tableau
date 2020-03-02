@@ -39,47 +39,59 @@ defmodule TableauTest do
     assert Linear.apply_all_linear_recursively(linear_example_2) == expected_result
   end
 
-  test "AAAA" do
-    expected_result = %Proof{
-      branches: [
-        %Proof{
-          branches: [],
-          formulas: [
-            t: {:not, {:not, :a}},
-            t: {:a, :implies, :b},
-            f: :b,
-            f: {:not, :a},
-            t: :a,
-            f: :a
-          ],
-          status: :closed
-        },
-        %Proof{
-          branches: [],
-          formulas: [
-            t: {:not, {:not, :a}},
-            t: {:a, :implies, :b},
-            f: :b,
-            f: {:not, :a},
-            t: :a,
-            t: :b
-          ],
-          status: :closed
-        }
-      ],
-      formulas: [
-        t: {:not, {:not, :a}},
-        t: {:a, :implies, :b},
-        f: :b,
-        f: {:not, :a},
-        t: :a
-      ],
-      status: :open
-    }
-
-    # IO.inspect(Tableau.prove([{:t, {:not, {:not, :a}}}, {:t, {:a, :implies, :b}}, {:f, :b}]))
+  @tag timeout: :infinity
+  test "Only for visual debugging" do
     assert Tableau.prove([{:t, {:not, {:not, :a}}}, {:t, {:a, :implies, :b}}, {:f, :b}]) ==
-             expected_result
+             %Proof{
+               branches: [
+                 %Proof{
+                   branches: [],
+                   formulas: [
+                     t: {:not, {:not, :a}},
+                     t: {:a, :implies, :b},
+                     f: :b,
+                     f: {:not, :a},
+                     t: :a,
+                     f: :a
+                   ],
+                   status: :closed
+                 },
+                 %Proof{
+                   branches: [],
+                   formulas: [
+                     t: {:not, {:not, :a}},
+                     t: {:a, :implies, :b},
+                     f: :b,
+                     f: {:not, :a},
+                     t: :a,
+                     t: :b
+                   ],
+                   status: :closed
+                 }
+               ],
+               formulas: [
+                 t: {:not, {:not, :a}},
+                 t: {:a, :implies, :b},
+                 f: :b,
+                 f: {:not, :a},
+                 t: :a
+               ],
+               status: :closed
+             }
+
+    assert Tableau.prove(ProblemGenerator.php(3)).status == :closed
+
+    php_3 = ProblemGenerator.php(3)
+    assert Tableau.prove(php_3 -- [Enum.random(php_3)]).status == :open
+
+    # IO.inspect(
+    #   Printing.show_proof(Tableau.prove([{:t, {:a, :implies, :b}}, {:t, {:c, :implies, :d}}]))
+    # )
+
+    # assert Printing.show_proof(
+    #          Tableau.prove([{:t, {:a, :implies, :b}}, {:t, {:c, :implies, :d}}])
+    #        ) ==
+    #          "oi"
 
     # assert Printing.show_proof(
     #         Tableau.prove([{:t, {:not, {:not, :a}}}, {:f, :a}, {:t, {:a, :implies, :b}}, {:f, :b}])

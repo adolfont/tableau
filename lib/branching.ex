@@ -25,11 +25,19 @@ defmodule Branching do
         first_branching_formula
         | remaining_branching_formulas
       ]) do
-    expand_with_branching_rule(
-      proof,
-      apply_beta(first_branching_formula),
-      remaining_branching_formulas
-    )
+    # CHECAR CONCLUSAO ANTES DE APLICAR
+
+    [left, right] = apply_beta(first_branching_formula)
+
+    if not (left in proof.formulas or right in proof.formulas) do
+      expand_with_branching_rule(
+        proof,
+        apply_beta(first_branching_formula),
+        remaining_branching_formulas
+      )
+    else
+      apply_branching_rule(proof, remaining_branching_formulas)
+    end
   end
 
   defp apply_beta({:t, {left, :or, right}}) do

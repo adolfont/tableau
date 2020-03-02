@@ -45,8 +45,14 @@ defmodule Tableau do
   end
 
   def prove_branches(proof = %Proof{branches: [left_branch, right_branch]}) do
-    %Proof{proof | branches: [prove_aux(left_branch), prove_aux(right_branch)]}
+    new_left_branch = prove_aux(left_branch)
+    new_right_branch = prove_aux(right_branch)
+    new_status = calculate_status(new_left_branch.status, new_right_branch.status)
+    %Proof{proof | branches: [new_left_branch, new_right_branch], status: new_status}
   end
+
+  defp calculate_status(:closed, :closed), do: :closed
+  defp calculate_status(_, _), do: :open
 
   def prove(formulas) do
     prove_aux(%Proof{formulas: formulas})
