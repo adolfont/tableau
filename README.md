@@ -2,7 +2,7 @@
 
 My goal here is to implement the Analytic Tableau method and the KE method. 
 Initially, only for classical logic.
-Later, maybe for some paraconsistent logics.
+Later, maybe for some paraconsistent logics (such as C1, as described in ["Towards an Efficient Prover for the C1 Paraconsistent Logic"](https://www.academia.edu/42085976/Towards_an_Efficient_Prover_for_the_C1_Paraconsistent_Logic)).
 
 Read more about the [Analytic Tableau method on Wikipedia](https://en.wikipedia.org/wiki/Method_of_analytic_tableaux).
 

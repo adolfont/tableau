@@ -6,20 +6,21 @@ defmodule Tableau do
 
     Formulas are represented as:
 
-    - Atomic formulas; :p, :q, :r
-    - Negation (not): {:not, :p}, {:not, {:not, :p}}
-    - Conjunction (and): {:p, :and, :q}
-    - Disjunction (or): {:p, :or, :q}
-    - Implication (if-then): {:p, :implies, :q}
+    - Atomic formulas: `:p, :q, :r`
+    - Negation (not): `{:not, :p}, {:not, {:not, :p}}`
+    - Conjunction (and): `{:p, :and, :q}`
+    - Disjunction (or): `{:p, :or, :q}`
+    - Implication (if-then): `{:p, :implies, :q}`
 
-    Signed formulas are represented as:
-    - {:f,  {:p, :implies, :q}}
-    - {:t,  {:p, :implies, :q}}
+
+  Signed formulas are represented as a tuple containing a sign (true `:t` or false `:f`) and a formula:
+    - `{:f,  {:p, :implies, :q}}`
+    - `{:t,  {:p, :implies, :q}}`
   """
 
   @doc """
 
-  Apply a linear rule to a formula.
+  Apply a linear rule to a signed formula.
 
   Returns the set of conclusions.
 
@@ -27,8 +28,15 @@ defmodule Tableau do
 
       iex> Tableau.apply_linear({:t, {:not, :p}})
       [{:f, :p}]
+      iex> Tableau.apply_linear({:f, {:not, :p}})
+      [{:t, :p}]
+      iex> Tableau.apply_linear({:t, {:p, :and, :q}})
+      [{:t, :p}, {:t, :q}]
+
 
   """
+  def apply_linear(signed_formula)
+
   def apply_linear({:t, {:not, formula}}) do
     [{:f, formula}]
   end
