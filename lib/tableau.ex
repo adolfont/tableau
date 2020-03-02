@@ -72,6 +72,31 @@ defmodule Tableau do
     )
   end
 
+  @doc """
+
+  Apply all linear rules to a list of signed formulas.
+
+  Returns the set of conclusions.
+
+  ## Examples
+
+    iex(1)> Tableau.apply_all_linear_recursively([{:t, {:not, :p}}])
+    [t: {:not, :p}, f: :p]
+
+    iex(1)> Tableau.apply_all_linear_recursively([{:t, {:not, {:not, :a}}}, {:t, {:c, :and, {:d, :and, :g}}}, {:f, {:u, :and, :u}}])
+    [
+      t: {:not, {:not, :a}},
+      t: {:c, :and, {:d, :and, :g}},
+      f: {:u, :and, :u},
+      f: {:not, :a},
+      t: :c,
+      t: {:d, :and, :g},
+      t: :a,
+      t: :d,
+      t: :g
+    ]
+
+  """
   def apply_all_linear_recursively(formulas) do
     apply_all_linear_recursively_aux(formulas, [])
   end
@@ -163,8 +188,8 @@ defmodule Tableau do
   end
 end
 
-Tableau.prove([{:t, {:not, {:not, :a}}}, {:t, {:a, :implies, :b}}, {:f, :b}])
-|> IO.inspect()
+# Tableau.prove([{:t, {:not, {:not, :a}}}, {:t, {:a, :implies, :b}}, {:f, :b}])
+# |> IO.inspect()
 
-Tableau.prove([{:t, {:not, {:not, :b}}}, {:t, {:a, :implies, :b}}, {:f, :b}])
-|> IO.inspect()
+# Tableau.prove([{:t, {:not, {:not, :b}}}, {:t, {:a, :implies, :b}}, {:f, :b}])
+# |> IO.inspect()
