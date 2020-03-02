@@ -1,5 +1,6 @@
 defmodule TableauTest do
   use ExUnit.Case
+  doctest Tableau
 
   test "apply all linear rules to a list" do
     linear_example = [
@@ -16,8 +17,12 @@ defmodule TableauTest do
   end
 
   test "apply all linear rules recursively" do
-    linear_example_2 = [{:t, {:not, {:not, :a}}}, {:t, {:c, :and, {:d, :and, :g}}},
-    {:f, {:u, :and, :u}}]
+    linear_example_2 = [
+      {:t, {:not, {:not, :a}}},
+      {:t, {:c, :and, {:d, :and, :g}}},
+      {:f, {:u, :and, :u}}
+    ]
+
     expected_result = [
       t: {:not, {:not, :a}},
       t: {:c, :and, {:d, :and, :g}},
@@ -31,6 +36,5 @@ defmodule TableauTest do
     ]
 
     assert Tableau.apply_all_linear_recursively(linear_example_2) == expected_result
-
   end
 end

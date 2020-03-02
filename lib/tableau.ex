@@ -1,6 +1,34 @@
 defmodule Tableau do
   import Proof
 
+  @moduledoc """
+    Module that implements Analytic Tableaux.
+
+    Formulas are represented as:
+
+    - Atomic formulas; :p, :q, :r
+    - Negation (not): {:not, :p}, {:not, {:not, :p}}
+    - Conjunction (and): {:p, :and, :q}
+    - Disjunction (or): {:p, :or, :q}
+    - Implication (if-then): {:p, :implies, :q}
+
+    Signed formulas are represented as:
+    - {:f,  {:p, :implies, :q}}
+    - {:t,  {:p, :implies, :q}}
+  """
+
+  @doc """
+
+  Apply a linear rule to a formula.
+
+  Returns the set of conclusions.
+
+  ## Examples
+
+      iex> Tableau.apply_linear({:t, {:not, :p}})
+      [{:f, :p}]
+
+  """
   def apply_linear({:t, {:not, formula}}) do
     [{:f, formula}]
   end
@@ -60,13 +88,14 @@ defmodule Tableau do
     %{proof | formulas: apply_all_linear_recursively(proof.formulas)}
   end
 
-
   defp branching_formula_filter({:t, {_, :or, _}}) do
     true
   end
+
   defp branching_formula_filter({:f, {_, :and, _}}) do
     true
   end
+
   defp branching_formula_filter({:t, {_, :implies, _}}) do
     true
   end
@@ -77,36 +106,47 @@ defmodule Tableau do
     Enum.filter(formulas, &branching_formula_filter/1)
   end
 
-
-  def  branch_if_not_closed(proof = %Proof{status: :closed}) do
+  def branch_if_not_closed(proof = %Proof{status: :closed}) do
     proof
   end
 
-  def  branch_if_not_closed(proof) do
+  def branch_if_not_closed(proof) do
     apply_branching_rule(proof, get_branching_formulas(proof.formulas))
   end
 
   def apply_branching_rule(proof, []) do
     proof
   end
-  def apply_branching_rule(proof, [first_branching_formula |
-  remaining_branching_formulas]) do
+
+  def apply_branching_rule(proof, [
+        first_branching_formula
+        | remaining_branching_formulas
+      ]) do
     apply_beta(first_branching_formula)
-    expand_with_branching_rule(proof, apply_beta(first_branching_formula), remaining_branching_formulas)
+
+    expand_with_branching_rule(
+      proof,
+      apply_beta(first_branching_formula),
+      remaining_branching_formulas
+    )
   end
+
   defp apply_beta({:t, {left, :or, right}}) do
     [{:t, left}, {:t, right}]
   end
+
   defp apply_beta({:f, {left, :and, right}}) do
     [{:f, left}, {:f, right}]
   end
+
   defp apply_beta({:t, {left, :implies, right}}) do
     [{:f, left}, {:t, right}]
   end
 
-  def expand_with_branching_rule(proof,_,_) do
+  def expand_with_branching_rule(proof, _, _) do
     proof
   end
+
   def prove_aux(proof) do
     proof
     |> apply_linear_rules()
