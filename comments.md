@@ -4,6 +4,7 @@
 - [X] Closed list of formulas
 - [] Closed branch
 - [X] Opposite formulas
+- [ ] Read this https://medium.com/@adolfont/classical-propositional-logic-in-elixir-bd18ceff2c93
 
 # Sets vs Lists
 
