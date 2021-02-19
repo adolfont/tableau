@@ -1,6 +1,11 @@
 defmodule ValuationTest do
   use ExUnit.Case
 
+  def assert_key(map, key, expected) do
+    assert Map.get(map, key) == expected
+    map
+  end
+
   test "Create an empty valuation" do
     v = Valuation.new()
 
@@ -37,11 +42,10 @@ defmodule ValuationTest do
     v =
       Valuation.new()
       |> Valuation.add(p, :t)
+      |> assert_key(p, :t)
       |> Valuation.add(q, :f)
+      |> assert_key(q, :f)
       |> Valuation.add(r, :t)
-
-    assert Valuation.value(v, p) == :t
-    assert Valuation.value(v, q) == :f
-    assert Valuation.value(v, r) == :t
+      |> assert_key(r, :t)
   end
 end
